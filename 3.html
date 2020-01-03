@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Hello, Bootstrap Table!</title>
+    <link rel="stylesheet" type="text/css" href="./node_modules/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="./node_modules/bootstrap-table/dist/bootstrap-table.min.css">
+    <link rel="stylesheet" type="text/css" href="./node_modules/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="./css/style.css">
+</head>
+<body class="gray-bg">
+
+<div class="wrapper wrapper-content">
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox">
+                <div class="ibox-title">
+                    <h5>多行表头、Footer统计、Footer统计样式、事件 (自定义数据)</h5>
+                </div>
+                <div class="ibox-content">
+
+                    <!-- table内容 -->
+                    <table id="table"></table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer fixed_full text-center">
+        <div>
+            <strong>Copyright</strong> 李准 &copy; 2019-2020
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="./node_modules/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript" src="./node_modules/popper.js/dist/umd/popper.js"></script>
+<script type="text/javascript" src="./node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="./node_modules/bootstrap-table/dist/bootstrap-table.min.js"></script>
+<script type="text/javascript" src="./node_modules/bootstrap-table/dist/locale/bootstrap-table-zh-CN.js"></script>
+
+<!-- 自定义js内容 -->
+<script type="text/javascript" src="./js/bootstrap-table-custom.js"></script>
+<script>
+    var $table = $('#table');
+
+    $(function () {
+        initTable()
+    });
+
+    function initTable() {
+        $table.bootstrapTable({
+            height: 500,
+            showFooter: true,
+            footerStyle: function(column) {
+                return {
+                    id: {
+                        classes: 'uppercase'
+                    },
+                    name: {
+                        css: {'font-weight': 'normal'}
+                    },
+                    price: {
+                        css: {color: 'red'}
+                    }
+                }[column.field]
+            },
+            columns: [
+                [{
+                    field: 'state',
+                    checkbox: true,
+                    rowspan: 2
+                }, {
+                    title: 'Item ID',
+                    field: 'id',
+                    rowspan: 2,
+                    sortable: true,
+                    footerFormatter: function (data) {
+                        return '合计：'
+                    }
+                }, {
+                    title: 'Item Detail',
+                    colspan: 3
+                }],
+                [{
+                    field: 'name',
+                    title: 'Item Name',
+                    sortable: true,
+                    footerFormatter: function totalNameFormatter(data) {
+                        return data.length + "条"
+                    }
+                }, {
+                    field: 'price',
+                    title: 'Item Price',
+                    sortable: true,
+                    footerFormatter: function (data) {
+                        var field = this.field
+                        return '$' + data.map(function (row) {
+                            return +row[field].substring(1)
+                        }).reduce(function (sum, i) {
+                            return sum + i
+                        }, 0)
+                    }
+                }, {
+                    field: 'operate',
+                    title: 'Item Operate',
+                    clickToSelect: false,
+                    events: window.operateEvents,
+                    formatter: function (value, row, index) {
+                        return [
+                            '<a class="like" href="javascript:void(0)" title="Like">',
+                            '<i class="fa fa-heart"></i>',
+                            '</a>  ',
+                            '<a class="remove" href="javascript:void(0)" title="Remove">',
+                            '<i class="fa fa-trash"></i>',
+                            '</a>'
+                        ].join('')
+                    }
+                }]
+            ],
+            data: [
+                {
+                    "id": 1,
+                    "name": "铅笔",
+                    "price": "￥1"
+                },
+                {
+                    "id": 2,
+                    "name": "毛笔",
+                    "price": "￥2"
+                },
+                {
+                    "id": 3,
+                    "name": "钢笔",
+                    "price": "￥3"
+                }
+            ]
+        });
+    }
+
+    window.operateEvents = {
+        'click .like': function (e, value, row, index) {
+            alert('You click like action, row: ' + JSON.stringify(row))
+        },
+        'click .remove': function (e, value, row, index) {
+            $table.bootstrapTable('remove', {
+                field: 'id',
+                values: [row.id]
+            })
+        }
+    }
+</script>
+</body>
+</html>

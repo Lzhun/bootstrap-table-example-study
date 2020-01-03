@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Hello, Bootstrap Table!</title>
+    <link rel="stylesheet" type="text/css" href="./node_modules/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="./node_modules/bootstrap-table/dist/bootstrap-table.min.css">
+    <link rel="stylesheet" type="text/css" href="./node_modules/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="./css/style.css">
+</head>
+<body class="gray-bg">
+
+<div class="wrapper wrapper-content">
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox">
+                    <div class="ibox-title">
+                        <h5>method</h5>
+                    </div>
+                    <div class="ibox-content">
+
+                        <!-- table内容 -->
+                        <table id="table"></table>
+
+
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <span class="badge badge-info">获取bootstrap所有参数信息</span>
+                                <button class="btn btn-sm btn-success pull-right" onclick="getOptions()">getOptions</button>
+                            </li>
+
+                            <li class="list-group-item">
+                                <span class="badge badge-info">刷新bootstrap的部分参数</span>
+                                <div class="form-group">
+                                    <span>刷新属性json: </span>
+                                    <input id="refreshOptions" class="form-control w70" type="text" value='{"toolbarAlign":"right"}'>
+                                </div>
+                                <button class="btn btn-sm btn-success pull-right" onclick="refreshOptions()">refreshOptions</button>
+                            </li>
+
+                            <li class="list-group-item">
+                                <span class="badge badge-info">获取列表数据</span>
+                                <button class="btn btn-sm btn-success pull-right" onclick="getData()">getData</button>
+                            </li>
+
+                            <li class="list-group-item">
+                                <span class="badge badge-info">获取选中数据</span>
+                                <button class="btn btn-sm btn-success pull-right" onclick="getSelections()">getSelections</button>
+                            </li>
+
+                            <li class="list-group-item">
+                                <span class="badge badge-info">返回所有选择的行，包括搜索过滤前的</span>
+                                <button class="btn btn-sm btn-success pull-right" onclick="getAllSelections()">getAllSelections</button>
+                            </li>
+
+                            <li class="list-group-item">
+                                <span class="badge badge-info">加载数据到表格中，旧数据会被替换</span>
+                                <button class="btn btn-sm btn-success pull-right" onclick="load()">load</button>
+                            </li>
+
+                            <li class="list-group-item">
+                                <span class="badge badge-info">追加数据</span>
+                                <button class="btn btn-sm btn-success pull-right" onclick="append()">append</button>
+                            </li>
+
+                            <li class="list-group-item">
+                                <span class="badge badge-info">插入数据到表格在现有数据之前</span>
+                                <span class="badge badge-warning">没有从前面添加数据</span>
+                                <button class="btn btn-sm btn-success pull-right" onclick="prepend()">prepend</button>
+                            </li>
+
+                            <li class="list-group-item">
+                                <span class="badge badge-info">删除数据 checked:true</span>
+                                <button class="btn btn-sm btn-success pull-right" onclick="remove()">remove</button>
+                            </li>
+
+                            <li class="list-group-item">
+                                <span class="badge badge-info">删除所有数据</span>
+                                <button class="btn btn-sm btn-success pull-right" onclick="removeAll()">removeAll</button>
+                            </li>
+
+                            <li class="list-group-item">
+                                <span class="badge badge-info">插入新行</span>
+                                <button class="btn btn-sm btn-success pull-right" onclick="insertRow()">insertRow</button>
+                            </li>
+
+                            <li class="list-group-item">
+                                <span class="badge badge-info">更新行</span>
+                                <button class="btn btn-sm btn-success pull-right" onclick="updateRow()">updateRow</button>
+                            </li>
+
+                            <li class="list-group-item">
+                                <span class="badge badge-info">根据UniqueId获取数据</span>
+                                <button class="btn btn-sm btn-success pull-right" onclick="getRowByUniqueId()">getRowByUniqueId</button>
+                            </li>
+
+                            <li class="list-group-item">
+                                <span class="badge badge-info">根据UniqueId更新数据</span>
+                                <button class="btn btn-sm btn-success pull-right" onclick="updateByUniqueId()">updateByUniqueId</button>
+                            </li>
+
+                            <li class="list-group-item">
+                                <span class="badge badge-info">根据UniqueId删除数据</span>
+                                <button class="btn btn-sm btn-success pull-right" onclick="removeByUniqueId()">removeByUniqueId</button>
+                            </li>
+
+                            <li class="list-group-item">
+                                <span class="badge badge-info">更新cell根据index</span>
+                                <button class="btn btn-sm btn-success pull-right" onclick="updateCell()">updateCell</button>
+                            </li>
+
+                            <li class="list-group-item">
+                                <span class="badge badge-info">更新cell根据UniqueId</span>
+                                <button class="btn btn-sm btn-success pull-right" onclick="updateCellByUniqueId()">updateCellByUniqueId</button>
+                            </li>
+
+                            <li class="list-group-item">
+                                <span class="badge badge-info">显示行、隐藏行 根据index</span>
+                                <button class="btn btn-sm btn-success pull-right" onclick="showRow()">showRow</button>
+                                <button class="btn btn-sm btn-success pull-right" onclick="hideRow()">hideRow</button>
+                            </li>
+
+                            <li class="list-group-item">
+                                <span class="badge badge-info">获取隐藏行</span>
+                                <button class="btn btn-sm btn-success pull-right" onclick="getHiddenRows(false)">getHiddenRows (仅获取)</button>
+                                <button class="btn btn-sm btn-success pull-right" onclick="getHiddenRows(true)">getHiddenRows, true（获取并显示）</button>
+                            </li>
+
+                            <li class="list-group-item">
+                                <span class="badge badge-info">隐藏显示column name</span>
+                                <button class="btn btn-sm btn-success pull-right" onclick="showColumn()">showColumn</button>
+                                <button class="btn btn-sm btn-success pull-right" onclick="hideColumn()">hideColumn</button>
+                            </li>
+
+                            <li class="list-group-item">
+                                <span class="badge badge-info">获取隐藏和不可见 column 的所有 option 信息</span>
+                                <button class="btn btn-sm btn-success pull-right" onclick="alert(JSON.stringify($table.bootstrapTable('getVisibleColumns')))">getVisibleColumns</button>
+                                <button class="btn btn-sm btn-success pull-right" onclick="alert(JSON.stringify($table.bootstrapTable('getHiddenColumns')))">getHiddenColumns</button>
+                            </li>
+
+                            <li class="list-group-item">
+                                <span class="badge badge-info">显示或隐藏所有 column</span>
+                                <button class="btn btn-sm btn-success pull-right" onclick="$table.bootstrapTable('showAllColumns')">showAllColumns</button>
+                                <button class="btn btn-sm btn-success pull-right" onclick="$table.bootstrapTable('hideAllColumns')">hideAllColumns</button>
+                            </li>
+
+                            <li class="list-group-item">
+                                <span class="badge badge-info">合并表格</span>
+                                <button class="btn btn-sm btn-success pull-right" onclick="$table.bootstrapTable('mergeCells', {index: 1, field: 'name', colspan: 2, rowspan: 2})">mergeCells</button>
+                            </li>
+
+                            <li class="list-group-item">
+                                <span class="badge badge-info">全选、全不选、取消全选、反选</span>
+                                <button class="btn btn-sm btn-success pull-right" onclick="$table.bootstrapTable('checkAll')">checkAll（全选）</button>
+                                <button class="btn btn-sm btn-success pull-right" onclick="$table.bootstrapTable('uncheckAll')">uncheckAll（全不选）</button>
+                                <button class="btn btn-sm btn-success pull-right" onclick="$table.bootstrapTable('checkInvert')">checkInvert（反选）</button>
+                            </li>
+
+                            <li class="list-group-item">
+                                <span class="badge badge-info">选择与取消选择 根据 index </span>
+                                <button class="btn btn-sm btn-success pull-right" onclick="$table.bootstrapTable('check', 1)">check, 1（选择）</button>
+                                <button class="btn btn-sm btn-success pull-right" onclick="$table.bootstrapTable('uncheck', 1)">uncheck, 1（取消选择）</button>
+                            </li>
+
+                            <li class="list-group-item">
+                                <span class="badge badge-info">选择与取消选择 根据 字段值 ，可多选 </span>
+                                <button class="btn btn-sm btn-success pull-right" onclick="$table.bootstrapTable('checkBy', {field: 'id', values:[1, 2]})">checkBy（选择）</button>
+                                <button class="btn btn-sm btn-success pull-right" onclick="$table.bootstrapTable('checkBy', {field: 'uncheckBy', values:[1, 2]})">uncheckBy, 1（取消选择）</button>
+                            </li>
+
+                            <li class="list-group-item">
+                                <span class="badge badge-info">刷新</span>
+                                <button class="btn btn-sm btn-success pull-right" onclick="$table.bootstrapTable('refresh')">refresh</button>
+                            </li>
+
+                            <li class="list-group-item">
+                                <span class="badge badge-info">销毁与构建</span>
+                                <button class="btn btn-sm btn-success pull-right" onclick="$table.bootstrapTable('destroy')">destroy</button>
+                                <button class="btn btn-sm btn-success pull-right" onclick="initTable()">initTable</button>
+                            </li>
+
+                            <li class="list-group-item">
+                                <span class="badge badge-info">重置视图（由于容器宽度改变是需要调用）</span>
+                                <button class="btn btn-sm btn-success pull-right" onclick="$table.bootstrapTable('resetView')">resetView</button>
+                            </li>
+
+                            <li class="list-group-item">
+                                <span class="badge badge-info">分页切换</span>
+                                <button class="btn btn-sm btn-success pull-right" onclick="$table.bootstrapTable('togglePagination')">togglePagination</button>
+                            </li>
+
+                            <li class="list-group-item">
+                                <span class="badge badge-info">全屏切换</span>
+                                <button class="btn btn-sm btn-success pull-right" onclick="$table.bootstrapTable('toggleFullscreen')">toggleFullscreen</button>
+                            </li>
+
+                            <li class="list-group-item">
+                                <span class="badge badge-info">card/table 切换</span>
+                                <button class="btn btn-sm btn-success pull-right" onclick="$table.bootstrapTable('toggleView')">toggleView</button>
+                            </li>
+
+                            <li class="list-group-item">
+                                <span class="badge badge-info">重置搜索框</span>
+                                <button class="btn btn-sm btn-success pull-right" onclick="$table.bootstrapTable('resetSearch')">resetSearch</button>
+                            </li>
+
+                            <li class="list-group-item">
+                                <span class="badge badge-info">过滤显示</span>
+                                <button class="btn btn-sm btn-success pull-right" onclick="$table.bootstrapTable('filterBy', {id: [1, 2, 3]})">filterBy</button>
+                            </li>
+
+                            <li class="list-group-item">
+                                <span class="badge badge-info">滑动到指定位置</span>
+                                <button class="btn btn-sm btn-success pull-right" onclick="$table.bootstrapTable('scrollTo', 0)">scrollTo, 0</button>
+                                <button class="btn btn-sm btn-success pull-right" onclick="$table.bootstrapTable('scrollTo', {unit: 'rows', value: 1})">scrollTo, {unit: 'rows', value: 1}</button>
+                                <button class="btn btn-sm btn-success pull-right" onclick="$table.bootstrapTable('scrollTo', 'bottom')">scrollTo, 'bottom'</button>
+                            </li>
+
+                            <li class="list-group-item">
+                                <span class="badge badge-info">获取滑动位置 px </span>
+                                <button class="btn btn-sm btn-success pull-right" onclick="alert($table.bootstrapTable('getScrollPosition') + 'px')">getScrollPosition</button>
+                            </li>
+
+                            <li class="list-group-item">
+                                <span class="badge badge-info">跳页、上一页、下一页</span>
+                                <button class="btn btn-sm btn-success pull-right" onclick="$table.bootstrapTable('selectPage', 1)">selectPage, 1</button>
+                                <button class="btn btn-sm btn-success pull-right" onclick="$table.bootstrapTable('prevPage')">prevPage</button>
+                                <button class="btn btn-sm btn-success pull-right" onclick="$table.bootstrapTable('nextPage')">nextPage</button>
+                            </li>
+
+                            <li class="list-group-item">
+                                <span class="badge badge-info">详情切换、展开、收缩、展开全部、收缩全部</span>
+                                <button class="btn btn-sm btn-success pull-right" onclick="$table.bootstrapTable('toggleDetailView', 1)">toggleDetailView, 1</button>
+                                <button class="btn btn-sm btn-success pull-right" onclick="$table.bootstrapTable('expandRow', 1)">expandRow, 1</button>
+                                <button class="btn btn-sm btn-success pull-right" onclick="$table.bootstrapTable('collapseRow', 1)">collapseRow, 1</button>
+                                <button class="btn btn-sm btn-success pull-right" onclick="$table.bootstrapTable('expandAllRows')">expandAllRows</button>
+                                <button class="btn btn-sm btn-success pull-right" onclick="$table.bootstrapTable('collapseAllRows')">collapseAllRows</button>
+                            </li>
+
+                            <li class="list-group-item">
+                                <span class="badge badge-info">更新title</span>
+                                <button class="btn btn-sm btn-success pull-right" onclick="$table.bootstrapTable('updateColumnTitle', {field: 'name', title: '名称'})">updateColumnTitle</button>
+                            </li>
+
+                            <li class="list-group-item">
+                                <span class="badge badge-info">更新 format 显示信息，（可更新字段查看源码EN），语言包中需要使用</span>
+                                <button class="btn btn-sm btn-success pull-right" onclick="$table.bootstrapTable('updateFormatText', 'formatSearch', '搜索 placeholder')">updateFormatText</button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer fixed_full text-center">
+            <div>
+                <strong>Copyright</strong> 李准 &copy; 2019-2020
+            </div>
+        </div>
+    </div>
+
+<script type="text/javascript" src="./node_modules/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript" src="./node_modules/popper.js/dist/umd/popper.js"></script>
+<script type="text/javascript" src="./node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="./node_modules/bootstrap-table/dist/bootstrap-table.min.js"></script>
+<script type="text/javascript" src="./node_modules/bootstrap-table/dist/locale/bootstrap-table-zh-CN.js"></script>
+
+<!-- 自定义js内容 -->
+<script type="text/javascript" src="./js/bootstrap-table-custom.js"></script>
+<script>
+    var $table = $('#table');
+    var idIndex = 3;
+    $(function () {
+        initTable();
+    });
+
+    function initTable() {
+        $table.bootstrapTable({
+            height: 500,
+            detailView:true,
+            detailFormatter: function detailFormatter(index, row) {
+                var html = [];
+                $.each(row, function (key, value) {
+                    html.push('<p><b>' + key + ':</b> ' + value + '</p>')
+                });
+                return html.join('')
+            },
+            columns: [
+                {
+                    field: 'checked',
+                    checkbox: true
+                },
+                {
+                    field: 'id',
+                    title: 'Item ID'
+                }, {
+                    field: 'name',
+                    title: 'Item Name'
+                }, {
+                    field: 'price',
+                    title: 'Item Price'
+                }
+            ],
+            data: [
+                {
+                    "id": 1,
+                    "name": "Item 1",
+                    "price": "$1",
+                    "other": '1234'
+                },
+                {
+                    "id": 2,
+                    "name": "Item 2",
+                    "price": "$2"
+                },
+                {
+                    "id": 3,
+                    "name": "Item 3",
+                    "price": "$3"
+                }
+            ]
+        });
+    }
+
+    function getOptions() {
+        console.log($table.bootstrapTable('getOptions'));
+    }
+
+    var $refreshOptions = $('#refreshOptions');
+    function refreshOptions() {
+        var optionsText = $refreshOptions.val();
+        if (optionsText) {
+            try{
+                var json = JSON.parse(optionsText);
+                $table.bootstrapTable('refreshOptions', JSON.parse(optionsText))
+            } catch (e) {
+              console.log(e);
+            }
+        }
+    }
+
+    function getData() {
+        alert(JSON.stringify($table.bootstrapTable('getData')));
+    }
+
+    function getSelections() {
+        alert(JSON.stringify($table.bootstrapTable('getSelections')));
+    }
+
+    function getAllSelections() {
+        alert(JSON.stringify($table.bootstrapTable('getAllSelections')));
+    }
+
+    function load() {
+        var newData = [
+            {
+                "id": 1,
+                "name": "铅笔",
+                "price": "￥1"
+            },
+            {
+                "id": 2,
+                "name": "毛笔",
+                "price": "￥2"
+            },
+            {
+                "id": 3,
+                "name": "钢笔",
+                "price": "￥3"
+            }
+        ];
+        idIndex = 3;
+        $table.bootstrapTable('load', newData);
+    }
+
+    function append() {
+        var data = [
+            {
+                "id": ++idIndex,
+                "name": "追加" + idIndex,
+                "price": "￥" + idIndex
+            }
+        ];
+        $table.bootstrapTable('append', data);
+    }
+
+    function prepend() {
+        var data = [
+            {
+                "id": ++idIndex,
+                "name": "插入" + idIndex,
+                "price": "￥" + idIndex
+            }
+        ];
+        $table.bootstrapTable('prepend', data);
+    }
+
+    function remove() {
+        $table.bootstrapTable('remove', {field: 'checked', values: [true]});
+    }
+
+    function removeAll() {
+        $table.bootstrapTable('removeAll');
+    }
+
+    function insertRow() {
+        var data = [
+            {
+                "id": ++idIndex,
+                "name": "插入" + idIndex,
+                "price": "￥" + idIndex
+            }
+        ];
+        $table.bootstrapTable('insertRow', {
+            index: ++idIndex,
+            row: {
+                id: idIndex,
+                name: '插入行 ' + idIndex,
+                price: '$' + idIndex
+            }
+        });
+    }
+
+    function updateRow() {
+        var randomId = 100 + ~~(Math.random() * 100);
+        $table.bootstrapTable('updateRow', {
+            index: 1,
+            row: {
+                id: 2,
+                name: '更新第（index===1）行数据 ' + randomId,
+                price: '$' + randomId
+            }
+        });
+    }
+
+    function getRowByUniqueId() {
+        alert(JSON.stringify($table.bootstrapTable('getRowByUniqueId', 1)));
+    }
+
+    function updateByUniqueId() {
+        var randomId = 100 + ~~(Math.random() * 100);
+        $table.bootstrapTable('updateByUniqueId', {
+            id: 1,
+            row: {
+                name: '根据（UniqueId===1）更新 ' + randomId,
+                price: '$' + randomId
+            }
+        })
+    }
+
+    function removeByUniqueId() {
+        $table.bootstrapTable('removeByUniqueId', 1);
+    }
+
+    function updateCell() {
+        var randomId = 100 + ~~(Math.random() * 100);
+        $table.bootstrapTable('updateCell', {
+            index: 1,
+            field: 'name',
+            value: '更新Cell（index===1的name字段）' + randomId
+        })
+    }
+
+    function updateCellByUniqueId() {
+        var randomId = 100 + ~~(Math.random() * 100);
+        $table.bootstrapTable('updateCellByUniqueId', {
+            id: 1,
+            field: 'name',
+            value: '更新Cell（UniqueId===1的name字段）' + randomId
+        });
+    }
+
+    function showRow() {
+        $table.bootstrapTable('showRow', {index:1});
+    }
+
+    function hideRow() {
+        $table.bootstrapTable('hideRow', {index:1});
+    }
+
+    function getHiddenRows(isShow) {
+        alert(JSON.stringify($table.bootstrapTable('getHiddenRows', isShow)));
+    }
+
+    function showColumn() {
+        $table.bootstrapTable('showColumn', 'name');
+    }
+
+    function hideColumn() {
+        $table.bootstrapTable('hideColumn', 'name');
+    }
+    
+    function changeTitle() {
+        var randomId = 100 + ~~(Math.random() * 100);
+        if (randomId % 2 == 0) {
+            $table.bootstrapTable('changeTitle', {
+                id: '主键',
+                name: '名称',
+                price: '金额'
+            });
+        } else {
+            $table.bootstrapTable('changeTitle', {
+                id: 'ID',
+                name: 'Item Name',
+                price: 'Item Price'
+            })
+        }
+    }
+</script>
+</body>
+</html>

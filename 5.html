@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Hello, Bootstrap Table!</title>
+    <link rel="stylesheet" type="text/css" href="./node_modules/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="./node_modules/bootstrap-table/dist/bootstrap-table.min.css">
+    <link rel="stylesheet" type="text/css" href="./node_modules/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="./css/style.css">
+</head>
+<body class="gray-bg">
+
+<div class="wrapper wrapper-content">
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox">
+                <div class="ibox-title">
+                    <h5>后台分页、请求参数处理、请求结果处理、字段排序处理</h5>
+                </div>
+                <div class="ibox-content">
+
+                    <div class="toolbar">
+
+                    </div>
+
+                    <!-- table内容 -->
+                    <table id="table"></table>
+
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <span class="text-info">接口：</span>
+                            <span class="badge badge-info pull-right">http://localhost:8007/system/user/page</span>
+                        </li>
+                        <li class="list-group-item">
+                            <span class="text-info">请求方式：</span>
+                            <span class="badge badge-info pull-right">GET</span>
+                        </li>
+                        <li class="list-group-item">
+                            <span class="text-info">参数：</span>
+                            <span class="badge badge-info pull-right">
+                                        pageNumber: 页码 &nbsp;
+                                        pageSize: 每页数量 &nbsp;
+                                        sortName: 排序字段 &nbsp;
+                                        sortOrder: 排序方式 &nbsp;
+                                    </span>
+                        </li>
+                        <li class="list-group-item">
+                            <span class="text-info">返回数据格式：</span>
+                            <span class="badge badge-info pull-right">
+                                        <pre class="text-left">
+{
+    "code": "200",
+    "message": "成功",
+    "data": [
+        {
+        "id": 1,
+        "account": "admin",
+        "name": "超级管理员",
+        "password": "27bd386e70f280e24c2f4f2a549b82cf",
+        "email": "admin@example.com",
+        "phoneNumber": "***",
+        "headUrl": "138",
+        "sex": null,
+        "intro": "东城区",
+        "isEnable": true,
+        "createDate": "2017-08-15T13:40:39.000+0000",
+        "updateDate": "2017-08-15T13:41:00.000+0000",
+        "remark": "北京市市辖区"
+        }
+    ],
+    "page": {
+        "total": 11,
+        "pageNum": 1,
+        "pageSize": 1
+    },
+    "ok": true
+}
+                                        </pre>
+                                    </span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer fixed_full text-center">
+        <div>
+            <strong>Copyright</strong> 李准 &copy; 2019-2020
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="./node_modules/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript" src="./node_modules/popper.js/dist/umd/popper.js"></script>
+<script type="text/javascript" src="./node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="./node_modules/bootstrap-table/dist/bootstrap-table.min.js"></script>
+<script type="text/javascript" src="./node_modules/bootstrap-table/dist/locale/bootstrap-table-zh-CN.js"></script>
+
+<!-- 自定义js内容 -->
+<script type="text/javascript" src="./js/bootstrap-table-custom.js"></script>
+<script>
+    $('#table').bootstrapTable({
+        height: 500,
+        url: 'http://localhost:8007/system/user/page',
+        pagination: true,                   //是否显示分页（*）
+        sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）
+        queryParamsType: '..',
+        queryParams: function (params) {
+            // queryParamsType:limit => offset, search, sort, order
+            // queryParamsType:其它 => pageSize, pageNumber, searchText, sortName, sortOrder
+            console.log(params);
+            return params;
+        },
+        responseHandler: function(r) {
+            return {
+                total: r.page.total,
+                rows: r.data
+            };
+        },
+        silentSort: false,                  // 设置为 false 将在点击分页按钮时，自动记住排序项。仅在 sidePagination设置为 server时生效。
+        sortName: 'id',                     // 初始化排序列
+        sortOrder: 'asc',                  // 初始化排序方式
+        toolbar: '.toolbar',
+        pageSize: 5,
+        columns: [
+            {
+                field: 'checked',
+                checkbox: true,
+                width: 50
+            },
+            {
+                field: 'no',
+                title: '序号',
+                width: 70,
+                type: 'no'
+            },
+            {
+                field: 'id',
+                title: '主键',
+                sortable: true
+            },
+            {
+                field: 'name',
+                title: '姓名',
+                sortable: true
+            },
+            {
+                field: 'account',
+                title: '账号',
+                footerFormatter: function (value) {
+                    return "总计：";
+                }
+            },
+            {
+                field: 'email',
+                title: '邮箱'
+            },
+            {
+                field: 'isEnable',
+                title: '状态',
+                sortable: true,
+                type: 'isEnable' // 属于自定义部分，原生不存在此功能
+            }
+        ]
+    });
+</script>
+</body>
+</html>

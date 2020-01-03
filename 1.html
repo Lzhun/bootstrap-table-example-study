@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Hello, Bootstrap Table!</title>
+    <link rel="stylesheet" type="text/css" href="./node_modules/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="./node_modules/bootstrap-table/dist/bootstrap-table.min.css">
+    <link rel="stylesheet" type="text/css" href="./node_modules/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="./css/style.css">
+</head>
+<body class="gray-bg">
+
+<div class="wrapper wrapper-content">
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox">
+                    <div class="ibox-title">
+                        <h5>自定义数据列表</h5>
+                    </div>
+                    <div class="ibox-content">
+
+                        <!-- table内容 -->
+                        <table id="table"></table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer fixed_full text-center">
+            <div>
+                <strong>Copyright</strong> 李准 &copy; 2019-2020
+            </div>
+        </div>
+    </div>
+
+<script type="text/javascript" src="./node_modules/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript" src="./node_modules/popper.js/dist/umd/popper.js"></script>
+<script type="text/javascript" src="./node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="./node_modules/bootstrap-table/dist/bootstrap-table.min.js"></script>
+<script type="text/javascript" src="./node_modules/bootstrap-table/dist/locale/bootstrap-table-zh-CN.js"></script>
+
+<!-- 自定义js内容 -->
+<script type="text/javascript" src="./js/bootstrap-table-custom.js"></script>
+<script>
+    $('#table').bootstrapTable({
+        height: 500,
+        columns: [{
+            field: 'id',
+            title: 'Item ID'
+        }, {
+            field: 'name',
+            title: 'Item Name'
+        }, {
+            field: 'price',
+            title: 'Item Price'
+        }],
+        data: [
+            {
+                "id": 1,
+                "name": "Item 1",
+                "price": "$1"
+            },
+            {
+                "id": 2,
+                "name": "Item 2",
+                "price": "$2"
+            },
+            {
+                "id": 3,
+                "name": "Item 3",
+                "price": "$3"
+            }
+        ]
+    });
+</script>
+</body>
+</html>
